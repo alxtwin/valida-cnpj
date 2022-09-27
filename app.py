@@ -28,13 +28,12 @@ while True:
         escolha = input(
             'Deseja validar um CNPJ ou gerar um novo?\nDigite "validar" ou "gerar":\n')
         if escolha == 'validar':
-                cnpj = input('Digite o CNPJ a ser confirmado:\n')
-                print(f'Seu CNPJ: {cnpj}')
-                resultado = calculo(cnpj)
-                print(f'O resultado da checagem: {resultado}')
-                print(check(cnpj, resultado))
+            cnpj = input('Digite o CNPJ a ser confirmado:\n')
+            resultado = calculo(cnpj)
+            print(check(cnpj, resultado))
         elif escolha == 'gerar':
-            print(gera_cnpj())
+            cnpj_gerado, cnpj_gerado_final = gera_cnpj()
+            print(check(cnpj_gerado, cnpj_gerado_final))
         elif escolha == 'sair':
             quit()
     except ValueError:

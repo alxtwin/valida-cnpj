@@ -32,8 +32,8 @@ def calculo(cnpj):
             contador_1 -= 1
             if contador_1 < 2:
                 contador_1 = 9
-        primeiro_digito = formula(digito_1)  
-        
+        primeiro_digito = formula(digito_1)
+
         for x in range(0, 12):
             digito_2 += int(cnpj[int(x)]) * contador_2
             contador_2 -= 1
@@ -41,10 +41,10 @@ def calculo(cnpj):
                 contador_2 = 9
         segundo_digito = primeiro_digito * 2 + digito_2
         segundo_digito = formula(segundo_digito)
-        
+
         if primeiro_digito > 9:
             primeiro_digito = 0
-            
+
         if segundo_digito > 9:
             segundo_digito = 0
         # Devolve os dados ao usuário após verificação.
@@ -55,9 +55,9 @@ def calculo(cnpj):
 
 def check(cnpj, resultado):
     if cnpj == resultado:
-        return 'CNPJ validado :)'
+        return 'validado >:)'
     else:
-        return 'CNPJ inválido :('
+        return 'Inválido >:('
 
 
 def gera_cnpj():
@@ -69,10 +69,9 @@ def gera_cnpj():
     digito_um = '0'
     digito_dois = '0'
 
-    cnpj_gerado = f'{primeiro_digito}{segundo_digito}.{segundo_bloco}.{terceiro_bloco}/{quarto_bloco}-{digito_um}{digito_dois}'
+    cnpj_raw = f'{primeiro_digito}{segundo_digito}.{segundo_bloco}.{terceiro_bloco}/{quarto_bloco}-{digito_um}{digito_dois}'
+    cnpj_gerado = calculo(cnpj_raw)
     cnpj_gerado_final = calculo(cnpj_gerado)
 
-    if check(cnpj_gerado_final, cnpj_gerado):
-        return cnpj_gerado_final
-    else:
-        return 'Erro inesperado.'
+    print(cnpj_gerado_final)
+    return cnpj_gerado, cnpj_gerado_final
