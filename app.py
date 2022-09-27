@@ -23,8 +23,19 @@ Fórmula -> 11 - (65 % 11) = 1
     6543298765432 -> Segunro digito
     """
 
-cnpj = '04.252.011/0001-10'
-print(f'Seu CNPJ: {cnpj}')
-resultado = calculo(cnpj)
-print(f'O resultado da checagem: {resultado}')
-print(check(cnpj, resultado))
+while True:
+    try:
+        escolha = input(
+            'Deseja validar um CNPJ ou gerar um novo?\nDigite "validar" ou "gerar":\n')
+        if escolha == 'validar':
+                cnpj = input('Digite o CNPJ a ser confirmado:\n')
+                print(f'Seu CNPJ: {cnpj}')
+                resultado = calculo(cnpj)
+                print(f'O resultado da checagem: {resultado}')
+                print(check(cnpj, resultado))
+        elif escolha == 'gerar':
+            print(gera_cnpj())
+        elif escolha == 'sair':
+            quit()
+    except ValueError:
+        print('erro inesperado')

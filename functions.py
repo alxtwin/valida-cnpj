@@ -1,5 +1,6 @@
-#Função básic para formatar os dados vindos do usuário
-from multiprocessing.sharedctypes import Value
+# Função básic para formatar os dados vindos do usuário
+# from multiprocessing.sharedctypes import Value
+import random
 
 
 def formata_cnpj(cnpj):
@@ -8,12 +9,16 @@ def formata_cnpj(cnpj):
 
     return cnpj_formatado
 
-#Fórmula para calcular validade do CNPJ (geral)
+# Fórmula para calcular validade do CNPJ (geral)
+
+
 def formula(digito):
     return 11 - (digito % 11)
 
-#Cálculo do CNPJ
-#Código instável e tremendamente mal-feito. Necessário otimizar.
+# Cálculo do CNPJ
+# Código instável e tremendamente mal-feito. Necessário otimizar.
+
+
 def calculo(cnpj):
     cnpj = formata_cnpj(cnpj)
     digito_1 = 0
@@ -27,6 +32,8 @@ def calculo(cnpj):
             if contador_1 < 2:
                 contador_1 = 9
         primeiro_digito = formula(digito_1)
+        if primeiro_digito > 9:
+            primeiro_digito = 0
 
         for x in range(0, 12):
             digito_2 += int(cnpj[int(x)]) * contador_2
@@ -38,7 +45,7 @@ def calculo(cnpj):
         if segundo_digito > 9:
             segundo_digito = 0
 
-        #Devolve os dados ao usuário após verificação.
+        # Devolve os dados ao usuário após verificação.
         return f'{cnpj[:2]}.{cnpj[2:5]}.{cnpj[5:8]}/{cnpj[8:12]}-{primeiro_digito}{segundo_digito}'
     except ValueError:
         return 'erro inesperado.'
@@ -46,6 +53,22 @@ def calculo(cnpj):
 
 def check(cnpj, resultado):
     if cnpj == resultado:
-        return ':)'
+        return 'CNPJ validado :)'
     else:
-        return ':('
+        return 'CNPJ inválido :('
+
+
+def gera_cnpj():
+    primeiro_digito = random.randint(0, 9)
+    segundo_digito = random.randint(0, 9)
+    segundo_bloco = random.randint(100, 999)
+    terceiro_bloco = random.randint(100, 999)
+    quarto_bloco = '0001'
+    dois_digitos = '00'
+
+    cnpj_gerado = f'{primeiro_digito}{segundo_digito}.{segundo_bloco}.{terceiro_bloco}/{quarto_bloco}-{dois_digitos}'
+    cnpj_gerado_final = calculo(cnpj_gerado)
+    if check(cnpj_gerado, cnpj_gerado_final):
+        return cnpj_gerado_final
+    else:
+        return 'Erro inesperado.'
