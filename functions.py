@@ -15,6 +15,7 @@ def formata_cnpj(cnpj):
 def formula(digito):
     return 11 - (digito % 11)
 
+
 # Cálculo do CNPJ
 # Código instável e tremendamente mal-feito. Necessário otimizar.
 
@@ -31,10 +32,8 @@ def calculo(cnpj):
             contador_1 -= 1
             if contador_1 < 2:
                 contador_1 = 9
-        primeiro_digito = formula(digito_1)
-        if primeiro_digito > 9:
-            primeiro_digito = 0
-
+        primeiro_digito = formula(digito_1)  
+        
         for x in range(0, 12):
             digito_2 += int(cnpj[int(x)]) * contador_2
             contador_2 -= 1
@@ -42,9 +41,12 @@ def calculo(cnpj):
                 contador_2 = 9
         segundo_digito = primeiro_digito * 2 + digito_2
         segundo_digito = formula(segundo_digito)
+        
+        if primeiro_digito > 9:
+            primeiro_digito = 0
+            
         if segundo_digito > 9:
             segundo_digito = 0
-
         # Devolve os dados ao usuário após verificação.
         return f'{cnpj[:2]}.{cnpj[2:5]}.{cnpj[5:8]}/{cnpj[8:12]}-{primeiro_digito}{segundo_digito}'
     except ValueError:
@@ -64,11 +66,13 @@ def gera_cnpj():
     segundo_bloco = random.randint(100, 999)
     terceiro_bloco = random.randint(100, 999)
     quarto_bloco = '0001'
-    dois_digitos = '00'
+    digito_um = '0'
+    digito_dois = '0'
 
-    cnpj_gerado = f'{primeiro_digito}{segundo_digito}.{segundo_bloco}.{terceiro_bloco}/{quarto_bloco}-{dois_digitos}'
+    cnpj_gerado = f'{primeiro_digito}{segundo_digito}.{segundo_bloco}.{terceiro_bloco}/{quarto_bloco}-{digito_um}{digito_dois}'
     cnpj_gerado_final = calculo(cnpj_gerado)
-    if check(cnpj_gerado, cnpj_gerado_final):
+
+    if check(cnpj_gerado_final, cnpj_gerado):
         return cnpj_gerado_final
     else:
         return 'Erro inesperado.'
